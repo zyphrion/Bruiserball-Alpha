@@ -26,8 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>///Initilization
-x = room_width/2;
-y = room_width/2;
+init = 0;
+x = 0;
+y = 0;
 x_old = x;
 y_old = y;
 
@@ -82,33 +83,6 @@ drag = 1/2 * fluid_density * velocity * drag_coefficient * reference_area;
 thrust_to_weight = thrust / (mass * 9.807);
 
 input_brakes_timer = 0;
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///Wall Creator - This belongs in a different object
-//Will need a full screen(2000 pixel)buffer around the edges, as not to displace viewport
-wall0 = instance_create(2000,2000,obj_Side_Wall);
-wall1 = instance_create(2000,2000+160,obj_End_Wall);
-wall2 = instance_create(2000,2000+11680+160,obj_Side_Wall);
-wall3 = instance_create(17600+380-1000,2000+160,obj_End_Wall);
-//17600
 </string>
           </argument>
         </arguments>
@@ -234,6 +208,33 @@ vspeed = vspeed_next;
       </action>
     </event>
     <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Initialization
+if(init = 0)
+{
+    x = obj_Arena_Parent.center_x;
+    y = obj_Arena_Parent.center_y;
+    init = 1;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -440,10 +441,10 @@ switch(input_brakes)
 }
 
 //this code is to keep player from running off map during testing
-if(x &gt; room_width - 2000 || x &lt; 2000)
+/*if(x &gt; room_width - 2000 || x &lt; 2000)
 {x = room_width/2;}
 if(y &gt; room_height - 2000 || y &lt; 2000)
-{y = room_height/2;}
+{y = room_height/2;}*/
 </string>
           </argument>
         </arguments>

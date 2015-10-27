@@ -9,7 +9,10 @@
     <sprite>sprites\spr_Mech</sprite>
     <sprite>sprites\spr_Side_Wall</sprite>
     <sprite>sprites\spr_End_Wall</sprite>
-    <sprite>sprites\spr_Corner</sprite>
+    <sprite>sprites\spr_Corner_1</sprite>
+    <sprite>sprites\spr_Corner_2</sprite>
+    <sprite>sprites\spr_Corner_3</sprite>
+    <sprite>sprites\spr_Corner_4</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -24,6 +27,10 @@
     <object>objects\obj_End_Wall</object>
     <object>objects\obj_Wall_Parent</object>
     <object>objects\obj_Arena_Parent</object>
+    <object>objects\obj_Corner_1</object>
+    <object>objects\obj_Corner_2</object>
+    <object>objects\obj_Corner_3</object>
+    <object>objects\obj_Corner_4</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
