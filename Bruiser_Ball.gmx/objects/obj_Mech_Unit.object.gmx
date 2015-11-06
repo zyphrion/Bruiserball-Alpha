@@ -81,8 +81,6 @@ reference_area = default_reference_area;
 drag = 1/2 * fluid_density * velocity * drag_coefficient * reference_area;
 
 thrust_to_weight = thrust / (mass * 9.807);
-
-input_brakes_timer = 0;
 </string>
           </argument>
         </arguments>
@@ -136,6 +134,55 @@ y_collision_path[] = 0;
 collision_instances[] = 0;
 collision_first_instance = 0;
 collision = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Timer Init
+//brakes
+input_brakes_timer = 0;
+input_brakes_counter = 0;
+input_brakes_threshold = 30;
+//turn_A
+input_turn_timer_A = 0;
+input_turn_counter_A = 0;
+input_turn_threshold_A = 30;
+//turn_D
+input_turn_timer_D = 0;
+input_turn_counter_D = 0;
+input_turn_threshold_D = 30;
+//strafe_Q
+input_strafe_timer_Q = 0;
+input_strafe_counter_Q = 0;
+input_strafe_threshold_Q = 30;
+//strafe_E
+input_strafe_timer_E = 0;
+input_strafe_counter_E = 0;
+input_strafe_threshold_E = 30;
+//Booster_W
+input_booster_timer_W = 0;
+input_booster_counter_W = 0;
+input_booster_threshold_W = 30;
+//Booster_S
+input_booster_timer_S = 0;
+input_booster_counter_S = 0;
+input_booster_threshold_S = 30;
 </string>
           </argument>
         </arguments>
@@ -269,26 +316,154 @@ else
 //if a or d are pressed while mech is still, then you rotate slowly
 //double tapping will cause a boost rotation
 //if you are moving, you will turn in an arc
-//double tapping will cause a boose rotation
+//double tapping will cause a boost rotation
 if(keyboard_check(ord('A'))){
-input_turn = 1;}
+    if(keyboard_check_pressed(ord('A')))
+    {
+        if(input_turn_timer_A == 0)
+        {
+            input_turn_timer_A = 1;
+            input_turn = 1;
+        }
+        else if(input_turn_timer_A == 1)
+        {
+            input_turn = 5;
+        }
+        else if(input_turn_timer_A == 2)
+        {
+            input_turn = 1;
+        }
+    }
+    if(keyboard_check_pressed(ord('D')))
+    {
+        if(input_turn_timer_D == 0)
+            {
+                input_turn_timer_D = 1;
+                input_turn = 2;
+            }
+            else if(input_turn_timer_D == 1)
+            {
+                input_turn = 6;
+            }
+            else if(input_turn_timer_D == 2)
+            {
+                input_turn = 2;
+            }
+    }
+    if(input_turn == 1)
+    {
+        input_turn = 1;
+    }
+    else if(input_turn == 5)
+    {
+        input_turn = 5;
+    }
+    else{}
+}
 else if(keyboard_check(ord('D'))){
-input_turn = 2;}
-else if(keyboard_check(ord('Q'))){
-input_turn = 3;}
-else if(keyboard_check(ord('E'))){
-input_turn = 4;}
+    if(keyboard_check_pressed(ord('D')))
+        {
+            if(input_turn_timer_D == 0)
+            {
+                input_turn_timer_D = 1;
+                input_turn = 2;
+            }
+            else if(input_turn_timer_D == 1)
+            {
+                input_turn = 6;
+            }
+            else if(input_turn_timer_D == 2)
+            {
+                input_turn = 2;
+            }
+        }
+    if(input_turn == 1)
+    {
+        input_turn = 1;
+    }
+    else if(input_turn == 6)
+    {
+        input_turn = 6;
+    }
+    else{}
+}
 else
 {input_turn = 0;}
+//strafing
+if(keyboard_check(ord('Q'))){
+    if(keyboard_check_pressed(ord('Q')))
+    {
+        if(input_strafe_timer_Q == 0)
+        {
+            input_strafe_timer_Q = 1;
+            input_strafe = 1;
+        }
+        else if(input_strafe_timer_Q == 1)
+        {input_strafe = 3;}
+        else if(input_strafe_timer_Q == 2)
+        {input_strafe = 1;}
+    }
+    if(keyboard_check_pressed(ord('E')))
+    {
+        if(input_strafe_timer_E == 0)
+        {
+            input_strafe_timer_E = 1;
+            input_strafe = 2;
+        }
+        else if(input_strafe_timer_E == 1)
+        {input_strafe = 4;}
+        else if(input_strafe_timer_E == 2)
+        {input_strafe = 2;}
+    }
+    if(input_strafe == 0)
+    {input_strafe = 1;}
+    else if(input_strafe == 3)
+    {input_strafe = 3;}
+}
+else if(keyboard_check(ord('E'))){
+    if(keyboard_check_pressed(ord('E')))
+    {
+        if(keyboard_check_pressed(ord('E')))
+    {
+        if(input_strafe_timer_E == 0)
+        {
+            input_strafe_timer_E = 1;
+            input_strafe = 2;
+        }
+        else if(input_strafe_timer_E == 1)
+        {input_strafe = 4;}
+        else if(input_strafe_timer_E == 2)
+        {input_strafe = 2;}
+    }
+    }
+    if(input_strafe == 2)
+    {input_strafe = 2;}
+    else if(input_strafe == 4)
+    {input_strafe = 4;}
+    }
+else
+{input_strafe = 0;}
 //brakes
 if(keyboard_check(vk_shift))
 {
-    input_brakes = 1;
+    if(input_brakes_timer == 0)
+    {
+        input_brakes = 1;
+        //SCRIPT_TIMERS(30,1,"input_brakes_timer",id);
+    }
+    if(input_brakes == 2)
+    {input_brakes = 2;}
     if(keyboard_check_pressed(vk_shift))
     {
         if(input_brakes_timer == 0)
         {
-            input_brakes_timer = 1;}}}
+            input_brakes_timer = 1;
+        }
+        else if(input_brakes_timer == 1)
+        {
+            input_brakes = 2;
+        }
+}}
 else
 {input_brakes = 0;}
 </string>
@@ -315,12 +490,102 @@ else
 //input timers
 // 0 = ready, 1 = active, 2 = expired
 //brakes timer
-if(input_brakes == 1)
+if(input_brakes_timer == 1 &amp;&amp; input_brakes_counter &lt; input_brakes_threshold)
 {
-    input_brakes_timer++;
+    input_brakes_counter++;
 }
-if(input_brakes == 2)
+if(input_brakes_counter &gt;= input_brakes_threshold)
 {
+    input_brakes_timer = 2;
+}
+if(input_brakes == 0 &amp;&amp; input_brakes_timer == 2)
+{
+    input_brakes_timer = 0;
+    input_brakes_counter = 0;
+}
+//turn timer_A
+if(input_turn_timer_A == 1 &amp;&amp; input_turn_counter_A &lt; input_turn_threshold_A)
+{
+    input_turn_counter_A++;
+}
+if(input_turn_counter_A &gt;= input_turn_threshold_A)
+{
+    input_turn_timer_A = 2;
+}
+if((input_turn != 1 || input_turn!= 5 || input_turn == 0) &amp;&amp; input_turn_timer_A == 2)
+{
+    input_turn_timer_A = 0;
+    input_turn_counter_A = 0;
+}
+//turn timer_D
+if(input_turn_timer_D == 1 &amp;&amp; input_turn_counter_D &lt; input_turn_threshold_D)
+{
+    input_turn_counter_D++;
+}
+if(input_turn_counter_D &gt;= input_turn_threshold_D)
+{
+    input_turn_timer_D = 2;
+}
+if((input_turn != 2 || input_turn!= 6 || input_turn == 0)&amp;&amp; input_turn_timer_D == 2)
+{
+    input_turn_timer_D = 0;
+    input_turn_counter_D = 0;
+}
+//strafe timer_Q
+if(input_strafe_timer_Q == 1 &amp;&amp; input_strafe_counter_Q &lt; input_strafe_threshold_Q)
+{
+    input_strafe_counter_Q++;
+}
+if(input_strafe_counter_Q &gt;= input_strafe_threshold_Q)
+{
+    input_strafe_timer_Q = 2;
+}
+if((input_turn != 3 || input_turn != 7) &amp;&amp; input_strafe_timer_Q == 2)
+{
+    input_strafe_timer_Q = 0;
+    input_strafe_counter_Q = 0;
+}
+//strafe timer_E
+if(input_strafe_timer_E == 1 &amp;&amp; input_strafe_counter_E &lt; input_strafe_threshold_E)
+{
+    input_strafe_counter_E++;
+}
+if(input_strafe_counter_E &gt;= input_strafe_threshold_E)
+{
+    input_strafe_timer_E = 2;
+}
+if((input_turn != 4 || input_turn != 8) &amp;&amp; input_strafe_timer_E == 2)
+{
+    input_strafe_timer_E = 0;
+    input_strafe_counter_E = 0;
+}
+//booster timer_W
+if(input_booster_timer_W == 1 &amp;&amp; input_booster_counter_W &lt; input_booster_threshold_W)
+{
+    input_booster_counter_W++;
+}
+if(input_booster_counter_W &gt;= input_booster_threshold_W)
+{
+    input_booster_timer_W = 2;
+}
+if(input_thrust == 0 &amp;&amp; input_booster_timer_W == 2)
+{
+    input_booster_timer_W = 0;
+    input_booster_counter_W = 0;
+}
+//booster timer_S
+if(input_booster_timer_S == 1 &amp;&amp; input_booster_counter_S &lt; input_booster_threshold_S)
+{
+    input_booster_counter_S++;
+}
+if(input_booster_counter_S &gt;= input_booster_threshold_S)
+{
+    input_booster_timer_S = 2;
+}
+if(input_thrust == 0 &amp;&amp; input_booster_timer_S == 2)
+{
+    input_booster_timer_S = 0;
+    input_booster_counter_S = 0;
 }
 </string>
           </argument>
@@ -370,34 +635,116 @@ switch(input_turn)
         net_movement_direction = facing;
     break;
     case 1://rotate counter clockwise
-    facing+=3;
+        facing+=3;
     break;
     case 2://rotate clockwise
-    facing-=3;
+        facing-=3;
     break;
     case 3://strafe left
-    if(input_thrust == 0)//if main thrusters aren't engaged
-    {
-        net_movement_direction = facing+90;
-        hspeed_next += cos(degtorad(net_movement_direction))*acceleration/room_speed;
-        vspeed_next += -sin(degtorad(net_movement_direction))*acceleration/room_speed;}
-    if(input_thrust == 1)
-    {
-        net_movement_direction = facing+45;}
-    if(input_thrust == 2){
-        net_movement_direction = facing+45;}
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing+90;
+            hspeed_next += cos(degtorad(net_movement_direction))*acceleration/room_speed;
+            vspeed_next += -sin(degtorad(net_movement_direction))*acceleration/room_speed;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing+45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing+45;}
     break;
     case 4://strafe right
-    if(input_thrust == 0)//if main thrusters aren't engaged
-    {
-        net_movement_direction = facing-90;
-        hspeed_next += cos(degtorad(net_movement_direction))*acceleration/room_speed;
-        vspeed_next += -sin(degtorad(net_movement_direction))*acceleration/room_speed;}
-    if(input_thrust == 1)
-    {
-        net_movement_direction = facing-45;}
-    if(input_thrust == 2){
-        net_movement_direction = facing-45;}
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing-90;
+            hspeed_next += cos(degtorad(net_movement_direction))*acceleration/room_speed;
+            vspeed_next += -sin(degtorad(net_movement_direction))*acceleration/room_speed;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing-45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing-45;}
+    break;
+    case 5://boost turn clockwise
+        facing+=10;
+    break;
+    case 6://boost turn clockwise
+        facing-=10;
+    break;
+    case 7://boost strafe left
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing+90;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing+45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing+45;}
+        hspeed_next += cos(degtorad(net_movement_direction))*acceleration*2/room_speed;
+        vspeed_next += -sin(degtorad(net_movement_direction))*acceleration*2/room_speed;
+    break;
+    case 8://boost strafe right
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing-90;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing-45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing-45;}
+        hspeed_next += cos(degtorad(net_movement_direction))*acceleration*2/room_speed;
+        vspeed_next += -sin(degtorad(net_movement_direction))*acceleration*2/room_speed;
+    break;
+    default:
+    break;
+}
+switch(input_strafe)
+{case 1://strafe left
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing+90;
+            hspeed_next += cos(degtorad(net_movement_direction))*acceleration/room_speed;
+            vspeed_next += -sin(degtorad(net_movement_direction))*acceleration/room_speed;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing+45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing+45;}
+    break;
+    case 2://strafe right
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing-90;
+            hspeed_next += cos(degtorad(net_movement_direction))*acceleration/room_speed;
+            vspeed_next += -sin(degtorad(net_movement_direction))*acceleration/room_speed;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing-45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing-45;}
+    break;
+    case 3://boost strafe left
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing+90;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing+45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing+45;}
+        hspeed_next += cos(degtorad(net_movement_direction))*acceleration*2/room_speed;
+        vspeed_next += -sin(degtorad(net_movement_direction))*acceleration*2/room_speed;
+    break;
+    case 4://boost strafe right
+        if(input_thrust == 0)//if main thrusters aren't engaged
+        {
+            net_movement_direction = facing-90;}
+        if(input_thrust == 1)
+        {
+            net_movement_direction = facing-45;}
+        if(input_thrust == 2){
+            net_movement_direction = facing-45;}
+        hspeed_next += cos(degtorad(net_movement_direction))*acceleration*2/room_speed;
+        vspeed_next += -sin(degtorad(net_movement_direction))*acceleration*2/room_speed;
     break;
     default:
     break;
@@ -436,6 +783,18 @@ switch(input_brakes)
         hspeed_next = 0;
         vpseed_next = 0;}
     break;
+    case 2://booster brakes - this will change to effect drag
+    if(speed &gt;= .5)
+    {
+        speed -= cos(degtorad(direction))*.5;
+        vspeed_next -= -sin(degtorad(direction))*.5;
+        reference_area = default_reference_area + 3;
+        drag_coefficient = 1;
+        }
+    else if(speed &gt; 0 &amp;&amp; speed &lt; .5)
+    {
+        hspeed_next = 0;
+        vpseed_next = 0;}
     default:
     break;
 }
@@ -536,7 +895,7 @@ for(i = 0; i &lt;= distance_to_point(x_next,y_next); i++){
           <argument>
             <kind>1</kind>
             <string>///speed overlay
-draw_text(0,0,"Current Speed: " + string(speed/16) + " m/s");
+/*draw_text(0,0,"Current Speed: " + string(speed/16) + " m/s");
 speed_mph = speed/16*2.236936;
 draw_text(0,10,"distance: " + string(distance_to_point(x+hspeed_next*cos(facing),y+vspeed_next*-sin(facing))) + " pixels");
 draw_text(0,+20,"Drag: " + string(drag/16) + " m/s");
@@ -548,7 +907,15 @@ draw_text(0,+70,"y_collision_path: " + string(y_collision_path[]));
 draw_text(0,+80,"collision_first_instance: " + string(collision_first_instance));
 draw_text(0,+90,"collision_instances[]: " + string(collision_instances[]));
 draw_text(0,+100,"Facing: " + string(facing));
-
+*/
+draw_text(0,0,"Brakes input: " + string(input_brakes));
+draw_text(0,10,"Brakes timer: " + string(input_brakes_timer));
+draw_text(0,20,"Brakes counter: " + string(input_brakes_counter));
+draw_text(0,30,"Turn input: " + string(input_turn));
+draw_text(0,40,"Turn timer_A: " + string(input_turn_timer_A));
+draw_text(0,50,"Turn counter_A: " + string(input_turn_counter_A));
+draw_text(0,60,"Turn timer_D: " + string(input_turn_timer_D));
+draw_text(0,70,"Turn counter_D: " + string(input_turn_counter_D));
 </string>
           </argument>
         </arguments>

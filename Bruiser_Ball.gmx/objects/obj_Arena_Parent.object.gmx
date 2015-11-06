@@ -35,8 +35,8 @@ buffer_length = 2000;
 side_length = 9760;
 end_length = 4880;
 thickness = 160;
-corner_length = 391;
-corner_height = 383;
+corner_length = 602;
+corner_height = 602;
 side_length_total = side_length+(corner_length*2);
 end_length_total = end_length+(corner_height*2);
 
@@ -46,16 +46,16 @@ x = center_x;
 y = center_y;
 
 //walls[ID, x, y, sprite]
-wall_west[]  = instance_create(x-side_length_total/2,y,obj_End_Wall);
-wall_east[]  = instance_create(x+side_length_total/2,y,obj_End_Wall);
-wall_north[] = instance_create(x,y-end_length_total/2,obj_Side_Wall);
-wall_south[] = instance_create(x,y+end_length_total/2,obj_Side_Wall);
+wall_west[]  = instance_create((x-side_length_total/2)+(thickness/2),y,obj_End_Wall);
+wall_east[]  = instance_create((x+side_length_total/2)-(thickness/2),y,obj_End_Wall);
+wall_north[] = instance_create(x,(y-end_length_total/2)+(thickness/2),obj_Side_Wall);
+wall_south[] = instance_create(x,(y+end_length_total/2)-(thickness/2),obj_Side_Wall);
 
 //corners[ID, x, y, sprite]
 corner_nw = instance_create(x-(side_length_total/2),y-(end_length_total/2),obj_Corner_1);
-corner_ne = instance_create(x+(side_length_total/2)-corner_length,y-(end_length_total/2)-80,obj_Corner_2);
-corner_se = instance_create(x+side_length_total/2,y+end_length_total/2,obj_Corner_3);
-corner_sw = instance_create(x-side_length_total/2,y+end_length_total/2,obj_Corner_4);
+corner_ne = instance_create(x+(side_length_total/2)-corner_length,y-(end_length_total/2),obj_Corner_2);
+corner_se = instance_create(x+(side_length_total/2)-corner_height,y+(end_length_total/2)-corner_height,obj_Corner_3);
+corner_sw = instance_create(x-(side_length_total/2),y+(end_length_total/2)-corner_height,obj_Corner_4);
 </string>
           </argument>
         </arguments>

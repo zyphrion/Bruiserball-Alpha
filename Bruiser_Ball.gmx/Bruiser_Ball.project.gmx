@@ -20,6 +20,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\Overlay_Grid.gml</script>
+    <script>scripts\SCRIPT_TIMERS.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_Mech_Unit</object>
